@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#15803d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Alimenta al Dino" />
+  <meta name="description" content="Alimenta al Dinosaurio - Juego educativo de matemáticas de la serie ASÍ APRENDERÁS… JUGANDO" />
+  <title>Alimenta al Dinosaurio | ASÍ APRENDERÁS… JUGANDO</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Nunito para estética infantil clara y amigable -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --font-display: 'Fredoka', cursive, sans-serif;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body {
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background-color: #064e3b;
+      touch-action: none;
+    }
+
+    h1, h2, h3, .font-display {
+      font-family: var(--font-display);
+    }
+
+    /* Animaciones personalizadas del Dinosaurio y Entorno */
+    @keyframes dinoBreathe {
+      0%, 100% { transform: scaleY(1) scaleX(1) translateY(0px); }
+      50% { transform: scaleY(1.035) scaleX(0.985) translateY(-4px); }
+    }
+
+    @keyframes tailWag {
+      0%, 100% { transform: rotate(-6deg); }
+      50% { transform: rotate(10deg); }
+    }
+
+    @keyframes chewAnim {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.08, 0.92) rotate(-3deg); }
+      50% { transform: scale(0.94, 1.08) rotate(3deg); }
+      75% { transform: scale(1.06, 0.95) rotate(-2deg); }
+    }
+
+    @keyframes headShake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      20% { transform: translateX(-14px) rotate(-8deg); }
+      40% { transform: translateX(14px) rotate(8deg); }
+      60% { transform: translateX(-10px) rotate(-5deg); }
+      80% { transform: translateX(10px) rotate(5deg); }
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(-6px, 4px); }
+      40% { transform: translate(6px, -4px); }
+      60% { transform: translate(-4px, -3px); }
+      80% { transform: translate(4px, 3px); }
+    }
+
+    @keyframes floatFruit {
+      0%, 100% { transform: translateY(0px) rotate(-2deg); }
+      50% { transform: translateY(-9px) rotate(2deg); }
+    }
+
+    @keyframes thoughtPop {
+      0% { transform: scale(0.7); opacity: 0; }
+      70% { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    @keyframes eggWobble {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      20% { transform: rotate(-12deg) scale(1.05); }
+      40% { transform: rotate(12deg) scale(1.05); }
+      60% { transform: rotate(-8deg) scale(1.02); }
+      80% { transform: rotate(8deg) scale(1.02); }
+    }
+
+    @keyframes petHop {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes auraGlow {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.75)); }
+      50% { filter: drop-shadow(0 0 26px rgba(251, 191, 36, 1)); }
+    }
+
+    .dino-breathe {
+      animation: dinoBreathe 2.8s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    .dino-tail {
+      animation: tailWag 2.2s ease-in-out infinite;
+      transform-origin: 85% 75%;
+    }
+
+    .dino-chew {
+      animation: chewAnim 0.45s ease-in-out 3;
+    }
+
+    .dino-no {
+      animation: headShake 0.55s ease-in-out;
+    }
+
+    .shake-screen {
+      animation: screenShake 0.4s ease-in-out;
+    }
+
+    .fruit-float {
+      animation: floatFruit 3s ease-in-out infinite;
+    }
+
+    .thought-bubble {
+      animation: thoughtPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .mic-recording {
+      animation: pulseRing 1.3s infinite;
+    }
+
+    .egg-wobble {
+      animation: eggWobble 0.5s ease-in-out;
+    }
+
+    .pet-hop {
+      animation: petHop 2s ease-in-out infinite;
+    }
+
+    .king-aura {
+      animation: auraGlow 2.4s ease-in-out infinite;
+    }
+
+    /* Botones 3D divertidos estilo arcade educativo */
+    .btn-3d {
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+    }
+
+    /* Fondos de escenarios */
+    .bg-jungle {
+      background: linear-gradient(180deg, #38bdf8 0%, #bae6fd 35%, #4ade80 65%, #15803d 100%);
+    }
+    .bg-volcano {
+      background: linear-gradient(180deg, #450a0a 0%, #9a3412 40%, #ea580c 72%, #7f1d1d 100%);
+    }
+    .bg-snow {
+      background: linear-gradient(180deg, #0284c7 0%, #7dd3fc 42%, #e0f2fe 72%, #cbd5e1 100%);
+    }
+    .bg-ar {
+      background: transparent !important;
+    }
+
+    /* Ocultar scrollbar en colecciones */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Contenedor Raíz de la Aplicación -->
+  <div id="appRoot" class="relative w-full h-full overflow-hidden bg-jungle transition-colors duration-700 select-none">
+
+    <!-- Video de Cámara para Modo Realidad Aumentada (AR) -->
+    <video id="arVideo" autoplay playsinline muted class="hidden absolute inset-0 w-full h-full object-cover z-0"></video>
+
+    <!-- Escenario SVG Decorativo Animado (Selva / Volcán / Nieve) -->
+    <div id="sceneBackdrop" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- Canvas de Partículas, Clima (Hojas, Cenizas, Copos) y Confeti -->
+    <canvas id="fxCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-30"></canvas>
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA DE BIENVENIDA / INICIO CON NARRACIÓN             -->
+    <!-- ========================================================= -->
+    <div id="welcomeOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md">
+      <div class="relative w-full max-w-lg bg-gradient-to-b from-amber-50 to-orange-100 border-4 border-amber-400 rounded-3xl p-6 sm:p-8 shadow-2xl text-center">
+        <div class="inline-block px-4 py-1 mb-2 rounded-full bg-emerald-600 text-white text-xs sm:text-sm font-extrabold tracking-wider uppercase shadow">
+          ASÍ APRENDERÁS… JUGANDO
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-display font-bold text-amber-900 drop-shadow-sm mb-2">
+          🦖 Alimenta al Dinosaurio
+        </h1>
+
+        <!-- Mini Dino saludando -->
+        <div class="w-32 h-32 mx-auto my-2 flex items-center justify-center">
+          <svg viewBox="0 0 200 200" class="w-full h-full dino-breathe">
+            <ellipse cx="100" cy="178" rx="52" ry="12" fill="rgba(0,0,0,0.18)" />
+            <path d="M55 135 Q20 120 25 95 Q42 115 62 115 Z" fill="#16a34a" />
+            <ellipse cx="100" cy="128" rx="46" ry="44" fill="#22c55e" stroke="#15803d" stroke-width="4" />
+            <ellipse cx="106" cy="134" rx="28" ry="30" fill="#bbf7d0" />
+            <circle cx="105" cy="76" r="40" fill="#22c55e" stroke="#15803d" stroke-width="4" />
+            <path d="M75 42 L85 24 L95 40 Z M96 36 L106 18 L116 36 Z M117 42 L127 26 L133 44 Z" fill="#facc15" stroke="#ca8a04" stroke-width="2" />
+            <circle cx="92" cy="68" r="10" fill="#fff" />
+            <circle cx="94" cy="68" r="5" fill="#1e293b" />
+            <circle cx="96" cy="66" r="2" fill="#fff" />
+            <circle cx="122" cy="68" r="10" fill="#fff" />
+            <circle cx="124" cy="68" r="5" fill="#1e293b" />
+            <circle cx="126" cy="66" r="2" fill="#fff" />
+            <path d="M88 92 Q108 112 128 92" fill="none" stroke="#14532d" stroke-width="4" stroke-linecap="round" />
+            <circle cx="80" cy="84" r="5" fill="#f87171" opacity="0.6" />
+            <circle cx="132" cy="84" r="5" fill="#f87171" opacity="0.6" />
+          </svg>
+        </div>
+
+        <p id="welcomeSpeechText" class="text-base sm:text-lg font-bold text-slate-800 bg-white/85 rounded-2xl p-4 border-2 border-amber-300 shadow-inner mb-5 leading-snug">
+          “¡Hola! Soy un dinosaurio muy hambriento. Ayúdame a comer únicamente la fruta que tenga el número correcto.”
+        </p>
+
+        <!-- Selector rápido de nivel al iniciar -->
+        <div class="mb-5">
+          <p class="text-xs font-extrabold uppercase tracking-wider text-amber-800 mb-2">Elige tu nivel de aventura:</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="selectDifficulty('baby')" id="startLvl-baby" class="start-lvl-btn p-2.5 rounded-2xl border-3 border-emerald-500 bg-emerald-100 text-emerald-900 font-bold text-xs sm:text-sm shadow transition">
+              🥚 Dino Bebé<br><span class="text-[11px] font-normal">Sumas hasta 10</span>
+            </button>
+            <button onclick="selectDifficulty('young')" id="startLvl-young" class="start-lvl-btn p-2.5 rounded-2xl border-2 border-amber-300 bg-white text-slate-700 font-bold text-xs sm:text-sm shadow transition">
+              🦖 Dino Joven<br><span class="text-[11px] font-normal">Sumas hasta 20</span>
+            </button>
+            <button onclick="selectDifficulty('king')" id="startLvl-king" class="start-lvl-btn p-2.5 rounded-2xl border-2 border-amber-300 bg-white text-slate-700 font-bold text-xs sm:text-sm shadow transition">
+              👑 Dino Rey<br><span class="text-[11px] font-normal">Mixtas (+ − ×)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button onclick="speakIntro()" class="btn-3d px-5 py-3.5 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-display font-bold text-base sm:text-lg shadow-[0_4px_0_#0369a1] flex items-center justify-center gap-2">
+            🔊 Escuchar Voz
+          </button>
+          <button onclick="startGame()" class="btn-3d flex-1 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-display font-bold text-lg sm:text-xl shadow-[0_5px_0_#14532d] flex items-center justify-center gap-2">
+            ¡A JUGAR! 🍎
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- BARRA SUPERIOR DE ESTADO Y CONTROLES                      -->
+    <!-- ========================================================= -->
+    <header class="relative z-20 flex flex-wrap items-center justify-between gap-2 px-3 py-2 sm:px-5 sm:py-3 bg-white/85 backdrop-blur-md border-b-4 border-amber-400/80 shadow-md">
+      <!-- Marca y Evolución -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex flex-col">
+          <span class="text-[10px] sm:text-xs font-black tracking-wider text-emerald-700 uppercase leading-none">
+            ASÍ APRENDERÁS… JUGANDO
+          </span>
+          <div class="flex items-center gap-1.5">
+            <h2 class="text-base sm:text-xl font-display font-bold text-slate-800 leading-tight">
+              Alimenta al Dino
+            </h2>
+            <span id="evoBadge" class="px-2 py-0.5 text-[11px] sm:text-xs font-extrabold rounded-full bg-amber-400 text-amber-950 shadow-sm">
+              Dino Bebé
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Progreso de Evolución + Estrellas + Racha -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Barra XP Evolución -->
+        <div class="hidden md:flex flex-col w-40">
+          <div class="flex justify-between text-[11px] font-extrabold text-slate-700 mb-0.5">
+            <span>Evolución</span>
+            <span id="xpText">0 / 50 XP</span>
+          </div>
+          <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300 p-0.5">
+            <div id="xpBar" class="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 rounded-full transition-all duration-500" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Contador de Estrellas / Comida -->
+        <div class="flex items-center gap-1.5 bg-amber-100 border-2 border-amber-400 px-2.5 py-1 rounded-2xl shadow-sm">
+          <span class="text-lg sm:text-xl">⭐</span>
+          <span id="scoreDisplay" class="font-display font-bold text-base sm:text-lg text-amber-900">0</span>
+        </div>
+
+        <!-- Racha -->
+        <div class="flex items-center gap-1 bg-orange-100 border-2 border-orange-400 px-2.5 py-1 rounded-2xl shadow-sm" title="Racha de aciertos">
+          <span class="text-base sm:text-lg">🔥</span>
+          <span id="streakDisplay" class="font-display font-bold text-sm sm:text-base text-orange-900">0</span>
+        </div>
+
+        <!-- Botón de Huevo Sorpresa Pendiente -->
+        <button id="eggIndicatorBtn" onclick="openEggModal()" class="hidden relative flex items-center gap-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-2xl font-display font-bold text-xs sm:text-sm shadow-md animate-bounce">
+          🥚 ¡Huevo!
+          <span id="eggCountBadge" class="ml-1 bg-white text-purple-700 rounded-full px-1.5 text-xs font-black">1</span>
+        </button>
+      </div>
+
+      <!-- Botones de Herramientas Rápidas -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Regalo Diario -->
+        <button onclick="openDailyModal()" class="btn-3d p-2 sm:px-3 sm:py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs sm:text-sm shadow-[0_3px_0_#9f1239] flex items-center gap-1" title="Recompensa Diaria">
+          🎁 <span class="hidden lg:inline">Diario</span>
+        </button>
+
+        <!-- Colección de Mascotas y Escenarios -->
+        <button onclick="openCollectionModal()" class="btn-3d p-2 sm:px-3 sm:py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm shadow-[0_3px_0_#581c87] flex items-center gap-1" title="Mascotas y Mundos">
+          🐾 <span class="hidden lg:inline">Mundos y Mascotas</span>
+        </button>
+
+        <!-- Selector de Nivel -->
+        <button onclick="openDifficultyModal()" class="btn-3d p-2 sm:px-3 sm:py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-[0_3px_0_#14532d] flex items-center gap-1" title="Nivel de Dificultad">
+          🎯 <span id="currentLvlShort" class="hidden sm:inline">Bebé</span>
+        </button>
+
+        <!-- Botón Audio / Música -->
+        <button onclick="toggleAudio()" id="audioToggleBtn" class="btn-3d p-2 rounded-xl bg-slate-700 hover:bg-slate-800 text-white font-bold text-sm shadow-[0_3px_0_#1e293b]" title="Sonido y Música">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- ========================================================= -->
+    <!-- ÁREA CENTRAL DEL JUEGO (FRUTAS + NUBE + DINOSAURIO)       -->
+    <!-- ========================================================= -->
+    <main id="gameArena" class="relative z-10 w-full h-[calc(100%-126px)] sm:h-[calc(100%-134px)] flex flex-col justify-between items-center px-3 pt-2 pb-3">
+
+      <!-- Zona Superior: Nube de Pensamiento del Dinosaurio + Controles Voz/AR -->
+      <div class="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-2 z-20">
+        
+        <!-- Controles Especiales Izquierda: Micrófono y Cámara AR -->
+        <div class="flex items-center gap-2 order-2 sm:order-1">
+          <!-- Botón Micrófono (Reconocimiento de Voz es-MX) -->
+          <button id="micBtn" onclick="toggleSpeechRecognition()" class="btn-3d flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-gradient-to-b from-red-500 to-rose-600 text-white font-display font-bold text-xs sm:text-sm shadow-[0_4px_0_#881337] border-2 border-red-300">
+            <span class="text-base sm:text-lg">🎤</span>
+            <span id="micBtnLabel">Decir Respuesta</span>
+          </button>
+
+          <!-- Botón Modo Cámara AR -->
+          <button id="arBtn" onclick="toggleARMode()" class="btn-3d flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-gradient-to-b from-indigo-500 to-blue-600 text-white font-display font-bold text-xs sm:text-sm shadow-[0_4px_0_#1e3a8a] border-2 border-indigo-300">
+            <span class="text-base sm:text-lg">📷</span>
+            <span id="arBtnLabel">Modo AR</span>
+          </button>
+
+          <!-- Botón Capturar Foto AR (visible solo en modo AR) -->
+          <button id="arPhotoBtn" onclick="takeARPhoto()" class="hidden btn-3d items-center gap-1 px-3 py-2 rounded-2xl bg-amber-400 hover:bg-amber-500 text-amber-950 font-display font-bold text-xs sm:text-sm shadow-[0_4px_0_#b45309] border-2 border-white">
+            📸 Foto
+          </button>
+        </div>
+
+        <!-- Nube de Pensamiento con la Operación Matemática -->
+        <div class="order-1 sm:order-2 relative flex items-center justify-center">
+          <div id="thoughtBubble" class="thought-bubble relative bg-white/95 border-4 border-sky-400 rounded-[2rem] px-6 py-2.5 sm:px-8 sm:py-3 shadow-xl flex items-center gap-3">
+            <span class="text-2xl sm:text-3xl">💭</span>
+            <div class="flex flex-col items-center">
+              <span class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-sky-600">El dino piensa:</span>
+              <span id="mathProblemText" class="font-display font-bold text-3xl sm:text-5xl text-slate-900 tracking-wide">
+                6 + 3
+              </span>
+            </div>
+            <button onclick="speakCurrentProblem()" class="btn-3d ml-1 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center text-xl sm:text-2xl shadow-[0_3px_0_#0369a1]" title="Escuchar operación">
+              🔊
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner de Estado de Voz / Retroalimentación -->
+        <div class="order-3 hidden lg:flex items-center bg-white/85 backdrop-blur px-3.5 py-2 rounded-2xl border-2 border-emerald-400 shadow max-w-[230px]">
+          <p id="feedbackBanner" class="text-xs font-extrabold text-emerald-900 leading-tight">
+            ¡Arrastra la fruta correcta a la boca del dino!
+          </p>
+        </div>
+      </div>
+
+      <!-- Zona Media: Frutas Flotantes / Cayendo Arrastrables -->
+      <div id="fruitsZone" class="relative w-full max-w-4xl flex-1 flex items-center justify-around px-2 sm:px-8 z-30">
+        <!-- Las frutas se generan dinámicamente aquí -->
+      </div>
+
+      <!-- Zona Inferior: Dinosaurio Interactivo + Mascota Coleccionable Acompañante -->
+      <div class="relative w-full max-w-3xl flex items-end justify-center pb-1 z-20">
+        
+        <!-- Mascota Coleccionable Activa a la izquierda del Dino -->
+        <div id="activePetContainer" onclick="petInteract()" class="cursor-pointer mr-2 sm:mr-6 mb-2 flex flex-col items-center pet-hop" title="Toca a tu mascota">
+          <div id="activePetSvg" class="w-16 h-16 sm:w-24 sm:h-24 drop-shadow-lg"></div>
+          <span id="activePetName" class="px-2 py-0.5 rounded-full bg-white/90 text-[10px] sm:text-xs font-extrabold text-slate-800 shadow">
+            Mini Triceratops
+          </span>
+        </div>
+
+        <!-- Contenedor Principal del Dinosaurio (Zona de Destino Drop) -->
+        <div id="dinoDropZone" class="relative flex flex-col items-center justify-end w-56 h-52 sm:w-72 sm:h-64 transition-transform duration-200">
+          <!-- Indicador visual cuando una fruta se acerca a la boca -->
+          <div id="mouthTargetGlow" class="opacity-0 transition-opacity duration-200 absolute top-14 sm:top-16 w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-yellow-300/50 border-4 border-dashed border-yellow-400 animate-ping pointer-events-none"></div>
+          
+          <!-- SVG Dinámico del Dinosaurio según Etapa de Evolución -->
+          <div id="dinoSvgWrapper" class="w-full h-full flex items-end justify-center dino-breathe">
+            <!-- Renderizado por JS -->
+          </div>
+        </div>
+
+        <!-- Botón de Pista / Ayuda Visual a la derecha -->
+        <div class="ml-2 sm:ml-6 mb-3 flex flex-col items-center gap-2">
+          <button onclick="giveVisualHint()" class="btn-3d w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-400 hover:bg-amber-500 border-2 border-white text-amber-950 font-display font-bold text-xl sm:text-2xl shadow-[0_4px_0_#b45309] flex items-center justify-center" title="Pedir una pista">
+            💡
+          </button>
+          <span class="text-[10px] sm:text-xs font-extrabold text-white drop-shadow bg-black/40 px-2 py-0.5 rounded-full">
+            Pista
+          </span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Barra Inferior Compacta Móvil (XP + Mensaje) -->
+    <footer class="relative z-20 h-11 px-4 bg-white/90 backdrop-blur border-t-2 border-amber-300 flex items-center justify-between text-xs font-extrabold text-slate-700">
+      <div class="flex items-center gap-2 flex-1 max-w-xs">
+        <span class="text-amber-600">XP:</span>
+        <div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="xpBarMobile" class="h-full bg-gradient-to-r from-emerald-400 to-teal-600 transition-all duration-500" style="width: 10%;"></div>
+        </div>
+        <span id="xpTextMobile" class="text-[11px]">0/50</span>
+      </div>
+      <div id="mobileStatusText" class="truncate ml-3 text-emerald-800 font-bold">
+        ¡Alimenta al dino con el número correcto!
+      </div>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: HUEVO SORPRESA INTERACTIVO                         -->
+    <!-- ========================================================= -->
+    <div id="eggModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+      <div class="bg-gradient-to-b from-purple-100 via-pink-50 to-amber-100 border-4 border-purple-400 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl">
+        <h3 class="text-2xl sm:text-3xl font-display font-bold text-purple-900 mb-1">
+          🥚 ¡Huevo Sorpresa!
+        </h3>
+        <p id="eggInstruction" class="text-sm sm:text-base font-bold text-purple-700 mb-4">
+          ¡Toca el huevo varias veces para romperlo y descubrir tu mascota!
+        </p>
+
+        <div onclick="tapSurpriseEgg()" id="surpriseEggContainer" class="cursor-pointer w-44 h-48 mx-auto my-3 flex items-center justify-center relative">
+          <!-- SVG del Huevo con grietas progresivas -->
+          <svg id="surpriseEggSvg" viewBox="0 0 200 220" class="w-full h-full drop-shadow-xl transition-transform">
+            <defs>
+              <radialGradient id="eggGrad" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#fef08a" />
+                <stop offset="55%" stop-color="#f472b6" />
+                <stop offset="100%" stop-color="#9333ea" />
+              </radialGradient>
+            </defs>
+            <ellipse cx="100" cy="202" rx="52" ry="12" fill="rgba(0,0,0,0.2)" />
+            <path d="M100 18 C148 18 175 85 175 135 C175 178 142 198 100 198 C58 198 25 178 25 135 C25 85 52 18 100 18 Z" fill="url(#eggGrad)" stroke="#6b21a8" stroke-width="5" />
+            <!-- Manchas decorativas -->
+            <circle cx="72" cy="85" r="14" fill="#fde047" opacity="0.7" />
+            <circle cx="132" cy="115" r="18" fill="#38bdf8" opacity="0.65" />
+            <circle cx="80" cy="150" r="12" fill="#4ade80" opacity="0.7" />
+            <!-- Grietas dinámicas -->
+            <path id="eggCrack1" class="hidden" d="M95 55 L108 78 L90 95 L105 112" fill="none" stroke="#fefce8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            <path id="eggCrack2" class="hidden" d="M105 112 L128 125 L115 148 L135 165 M90 95 L68 110 L78 132" fill="none" stroke="#fefce8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+
+        <div id="eggRewardReveal" class="hidden flex-col items-center">
+          <div id="revealedPetSvg" class="w-32 h-32 mx-auto my-2 pet-hop"></div>
+          <p id="revealedPetTitle" class="text-xl font-display font-bold text-emerald-700 mb-1">
+            ¡Nuevo Amigo!
+          </p>
+          <p id="revealedPetDesc" class="text-sm font-bold text-slate-600 mb-4">
+            Ahora te acompañará en tus aventuras.
+          </p>
+          <button onclick="closeEggModal()" class="btn-3d w-full py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-lg shadow-[0_4px_0_#15803d]">
+            ¡Genial! Seguir Jugando
+          </button>
+        </div>
+
+        <div id="eggTapProgress" class="w-48 h-3 bg-purple-200 rounded-full mx-auto mt-3 overflow-hidden">
+          <div id="eggTapBar" class="h-full bg-purple-600 transition-all duration-200" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: RECOMPENSA DIARIA                                  -->
+    <!-- ========================================================= -->
+    <div id="dailyModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+      <div class="bg-gradient-to-b from-amber-50 to-yellow-100 border-4 border-amber-400 rounded-3xl p-6 max-w-md w-full text-center shadow-2xl">
+        <div class="text-5xl mb-2">🎁</div>
+        <h3 class="text-2xl sm:text-3xl font-display font-bold text-amber-900 mb-1">
+          ¡Regalo Diario!
+        </h3>
+        <p class="text-sm font-bold text-amber-800 mb-4">
+          Vuelve todos los días para ganar estrellas y huevos sorpresa.
+        </p>
+
+        <div class="grid grid-cols-5 gap-2 mb-5" id="dailyDaysGrid">
+          <!-- Generado por JS -->
+        </div>
+
+        <button id="claimDailyBtn" onclick="claimDailyReward()" class="btn-3d w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-display font-bold text-lg shadow-[0_4px_0_#b45309] mb-2">
+          ¡Reclamar Regalo de Hoy! ⭐
+        </button>
+        <button onclick="closeDailyModal()" class="text-xs font-extrabold text-slate-500 hover:text-slate-700 underline mt-1">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: COLECCIÓN DE MASCOTAS Y ESCENARIOS                 -->
+    <!-- ========================================================= -->
+    <div id="collectionModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+      <div class="bg-white border-4 border-purple-400 rounded-3xl p-5 sm:p-6 max-w-2xl w-full max-h-[88vh] overflow-y-auto no-scrollbar shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-display font-bold text-purple-900">
+            🐾 Mascotas y Escenarios
+          </h3>
+          <button onclick="closeCollectionModal()" class="w-9 h-9 rounded-full bg-slate-200 hover:bg-slate-300 font-bold text-slate-700">
+            ✕
+          </button>
+        </div>
+
+        <!-- Sección Escenarios -->
+        <h4 class="text-sm font-extrabold uppercase tracking-wider text-emerald-700 mb-2">
+          🌍 Escenarios del Mundo Prehistórico
+        </h4>
+        <div id="scenesGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <!-- Renderizado por JS -->
+        </div>
+
+        <!-- Sección Mascotas Coleccionables -->
+        <h4 class="text-sm font-extrabold uppercase tracking-wider text-purple-700 mb-2">
+          🥚 Mis Mascotas Coleccionables (Toca una para equipar)
+        </h4>
+        <div id="petsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <!-- Renderizado por JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: SELECTOR DE DIFICULTAD                             -->
+    <!-- ========================================================= -->
+    <div id="difficultyModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+      <div class="bg-white border-4 border-emerald-400 rounded-3xl p-6 max-w-md w-full text-center shadow-2xl">
+        <h3 class="text-2xl font-display font-bold text-emerald-900 mb-2">
+          🎯 Nivel de Dificultad
+        </h3>
+        <p class="text-sm font-bold text-slate-600 mb-4">
+          Selecciona el reto matemático para tu dinosaurio:
+        </p>
+
+        <div class="flex flex-col gap-3 mb-5">
+          <button onclick="changeDifficultyAndClose('baby')" class="p-3.5 rounded-2xl border-2 border-emerald-400 bg-emerald-50 hover:bg-emerald-100 text-left flex items-center gap-3 transition">
+            <span class="text-3xl">🥚</span>
+            <div>
+              <div class="font-display font-bold text-emerald-900 text-lg">Dinosaurio Bebé</div>
+              <div class="text-xs font-bold text-emerald-700">Sumas fáciles con resultados hasta 10</div>
+            </div>
+          </button>
+
+          <button onclick="changeDifficultyAndClose('young')" class="p-3.5 rounded-2xl border-2 border-amber-400 bg-amber-50 hover:bg-amber-100 text-left flex items-center gap-3 transition">
+            <span class="text-3xl">🦖</span>
+            <div>
+              <div class="font-display font-bold text-amber-900 text-lg">Dinosaurio Joven</div>
+              <div class="text-xs font-bold text-amber-700">Sumas divertidas con resultados hasta 20</div>
+            </div>
+          </button>
+
+          <button onclick="changeDifficultyAndClose('king')" class="p-3.5 rounded-2xl border-2 border-purple-400 bg-purple-50 hover:bg-purple-100 text-left flex items-center gap-3 transition">
+            <span class="text-3xl">👑</span>
+            <div>
+              <div class="font-display font-bold text-purple-900 text-lg">Dinosaurio Rey</div>
+              <div class="text-xs font-bold text-purple-700">Operaciones mixtas: sumas, restas y multiplicaciones</div>
+            </div>
+          </button>
+        </div>
+
+        <button onclick="closeDifficultyModal()" class="px-6 py-2 rounded-xl bg-slate-200 font-bold text-slate-700">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TOAST / MENSAJE FLOTANTE NO INTRUSIVO                     -->
+    <!-- ========================================================= -->
+    <div id="toastMsg" class="pointer-events-none fixed top-20 left-1/2 -translate-x-1/2 z-50 opacity-0 transition-all duration-300 bg-slate-900/90 text-white px-5 py-2.5 rounded-full font-display font-bold text-sm sm:text-base shadow-xl border-2 border-amber-400 text-center max-w-[90vw]">
+      Mensaje
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- LÓGICA COMPLETA DE LA PWA, AUDIO, VOZ, AR Y JUEGO         -->
+  <!-- ========================================================= -->
+  <script>
+    /*************************************************************************
+     * 1. CONFIGURACIÓN PWA (MANIFIESTO DINÁMICO + SERVICE WORKER OFFLINE)
+     *************************************************************************/
+    (function setupPWA() {
+      try {
+        const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="110" fill="#15803d"/><circle cx="256" cy="240" r="140" fill="#4ade80"/><circle cx="220" cy="210" r="24" fill="#fff"/><circle cx="226" cy="210" r="12" fill="#0f172a"/><circle cx="300" cy="210" r="24" fill="#fff"/><circle cx="306" cy="210" r="12" fill="#0f172a"/><path d="M210 280 Q260 330 310 280" fill="none" stroke="#14532d" stroke-width="16" stroke-linecap="round"/></svg>`;
+        const iconUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(iconSvg)));
+
+        const manifest = {
+          name: 'Alimenta al Dinosaurio - Así Aprenderás Jugando',
+          short_name: 'Alimenta Dino',
+          description: 'Juego educativo de matemáticas en español de México para niños.',
+          start_url: './',
+          display: 'standalone',
+          orientation: 'any',
+          background_color: '#15803d',
+          theme_color: '#15803d',
+          icons: [
+            { src: iconUrl, sizes: '192x192', type: 'image/svg+xml' },
+            { src: iconUrl, sizes: '512x512', type: 'image/svg+xml' }
+          ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = URL.createObjectURL(manifestBlob);
+        document.head.appendChild(manifestLink);
+
+        if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
+          const swCode = `
+            const CACHE_NAME = 'alimenta-dino-v1';
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+            self.addEventListener('fetch', (e) => {
+              e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+            });
+          `;
+          const swBlob = new Blob([swCode], { type: 'application/javascript' });
+          navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+        }
+      } catch (e) {
+        console.warn('PWA setup notice:', e);
+      }
+    })();
+
+    /*************************************************************************
+     * 2. CATÁLOGOS DE EVOLUCIÓN, ESCENARIOS, MASCOTAS Y FRUTAS
+     *************************************************************************/
+    const EVOLUTION_STAGES = [
+      { id: 'egg', name: 'Dino Cascarón', minXp: 0, scale: 0.85, bodyColor: '#4ade80', bellyColor: '#dcfce7', crestColor: '#facc15', hasCrown: false, hasWings: false, hasShell: true },
+      { id: 'baby', name: 'Dino Bebé', minXp: 30, scale: 0.92, bodyColor: '#22c55e', bellyColor: '#bbf7d0', crestColor: '#facc15', hasCrown: false, hasWings: false, hasShell: false },
+      { id: 'young', name: 'Dino Joven', minXp: 90, scale: 1.0, bodyColor: '#10b981', bellyColor: '#a7f3d0', crestColor: '#fb923c', hasCrown: false, hasWings: false, hasShell: false },
+      { id: 'adult', name: 'Dino Guardián', minXp: 180, scale: 1.08, bodyColor: '#0ea5e9', bellyColor: '#bae6fd', crestColor: '#f43f5e', hasCrown: false, hasWings: true, hasShell: false },
+      { id: 'king', name: 'Dino Rey Supremo', minXp: 300, scale: 1.15, bodyColor: '#8b5cf6', bellyColor: '#fde047', crestColor: '#f59e0b', hasCrown: true, hasWings: true, hasShell: false }
+    ];
+
+    const SCENES = [
+      { id: 'jungle', name: 'Selva Prehistórica', cost: 0, cssClass: 'bg-jungle', desc: 'Árboles gigantes y hojas frescas' },
+      { id: 'volcano', name: 'Volcán de Lava', cost: 40, cssClass: 'bg-volcano', desc: 'Montañas de fuego y chispas brillantes' },
+      { id: 'snow', name: 'Valle de Nieve', cost: 80, cssClass: 'bg-snow', desc: 'Copos de nieve y glaciares helados' }
+    ];
+
+    const PETS_CATALOG = [
+      { id: 'triceratops', name: 'Mini Triceratops', color: '#fb923c', horn: '#fef08a', desc: 'Valiente y muy juguetón' },
+      { id: 'pterodactyl', name: 'Pterodáctilo Bebé', color: '#38bdf8', horn: '#f472b6', desc: 'Vuela feliz alrededor de ti' },
+      { id: 'stegosaurus', name: 'Estegosaurio', color: '#a855f7', horn: '#fde047', desc: 'Sus placas brillan con cada acierto' },
+      { id: 'raptor', name: 'Velociraptor Amigo', color: '#10b981', horn: '#fbbf24', desc: 'Súper rápido para contar' },
+      { id: 'mammoth', name: 'Mamut Lanudo', color: '#b45309', horn: '#f8fafc', desc: 'Tierno amigo de la era de hielo' },
+      { id: 'ankylosaurus', name: 'Anquilosaurio', color: '#ec4899', horn: '#a3e635', desc: 'Fuerte como una roca' }
+    ];
+
+    const FRUITS_CATALOG = [
+      { id: 'apple', name: 'Manzana', emoji: '🍎', bg: 'from-red-400 to-rose-600', border: 'border-red-200' },
+      { id: 'banana', name: 'Plátano', emoji: '🍌', bg: 'from-yellow-300 to-amber-500', border: 'border-yellow-100' },
+      { id: 'orange', name: 'Naranja', emoji: '🍊', bg: 'from-orange-400 to-orange-600', border: 'border-orange-200' },
+      { id: 'watermelon', name: 'Sandía', emoji: '🍉', bg: 'from-emerald-400 to-green-600', border: 'border-emerald-200' },
+      { id: 'grapes', name: 'Uvas', emoji: '🍇', bg: 'from-purple-400 to-indigo-600', border: 'border-purple-200' },
+      { id: 'strawberry', name: 'Fresa', emoji: '🍓', bg: 'from-pink-400 to-rose-600', border: 'border-pink-200' }
+    ];
+
+    /*************************************************************************
+     * 3. ESTADO PERSISTENTE DEL JUEGO (LOCALSTORAGE)
+     *************************************************************************/
+    const DEFAULT_STATE = {
+      xp: 0,
+      stars: 0,
+      streak: 0,
+      difficulty: 'baby', // 'baby' | 'young' | 'king'
+      currentScene: 'jungle',
+      unlockedScenes: ['jungle'],
+      unlockedPets: ['triceratops'],
+      activePet: 'triceratops',
+      pendingEggs: 0,
+      dailyStreak: 1,
+      lastDailyClaim: null,
+      soundEnabled: true
+    };
+
+    let gameState = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('alimenta_dino_mx_v1');
+        if (saved) {
+          return { ...DEFAULT_STATE, ...JSON.parse(saved) };
+        }
+      } catch (e) {}
+      return { ...DEFAULT_STATE };
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('alimenta_dino_mx_v1', JSON.stringify(gameState));
+      } catch (e) {}
+    }
+
+    /*************************************************************************
+     * 4. MOTOR DE AUDIO SINTETIZADO (WEB AUDIO API) Y VOZ (ES-MX)
+     *************************************************************************/
+    let audioCtx = null;
+    let bgmInterval = null;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playSound(type) {
+      if (!gameState.soundEnabled) return;
+      initAudioContext();
+      if (!audioCtx) return;
+
+      const now = audioCtx.currentTime;
+
+      if (type === 'chew') {
+        // Sonido divertido de masticar (3 mordiscos)
+        [0, 0.14, 0.28].forEach((offset, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(190 + idx * 35, now + offset);
+          osc.frequency.exponentialRampToValueAtTime(90, now + offset + 0.1);
+          gain.gain.setValueAtTime(0.28, now + offset);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + offset + 0.11);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.12);
+        });
+      } else if (type === 'roar') {
+        // Rugido alegre sintetizado del dinosaurio
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.linearRampToValueAtTime(240, now + 0.15);
+        osc.frequency.exponentialRampToValueAtTime(85, now + 0.55);
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.58);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.6);
+      } else if (type === 'win') {
+        // Fanfarria alegre ascendente
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.08);
+          gain.gain.setValueAtTime(0.2, now + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.25);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + i * 0.08);
+          osc.stop(now + i * 0.08 + 0.26);
+        });
+      } else if (type === 'wrong') {
+        // Sonido cómico suave ("boing" descendente)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(280, now);
+        osc.frequency.exponentialRampToValueAtTime(130, now + 0.35);
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.36);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.38);
+      } else if (type === 'crack') {
+        // Huevo rompiéndose
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 0.09);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.11);
+      } else if (type === 'pop') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(750, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      }
+    }
+
+    function startBackgroundMusic() {
+      if (bgmInterval) clearInterval(bgmInterval);
+      const melody = [261.63, 329.63, 392.00, 329.63, 293.66, 349.23, 440.00, 392.00];
+      let step = 0;
+      bgmInterval = setInterval(() => {
+        if (!gameState.soundEnabled || !audioCtx || audioCtx.state !== 'running') return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(melody[step % melody.length], now);
+        gain.gain.setValueAtTime(0.025, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.36);
+        step++;
+      }, 520);
+    }
+
+    function toggleAudio() {
+      gameState.soundEnabled = !gameState.soundEnabled;
+      saveState();
+      document.getElementById('audioToggleBtn').textContent = gameState.soundEnabled ? '🔊' : '🔇';
+      if (gameState.soundEnabled) {
+        initAudioContext();
+        showToast('🔊 Sonido activado');
+      } else {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        showToast('🔇 Sonido silenciado');
+      }
+    }
+
+    // Narración en Español de México (es-MX)
+    let preferredVoice = null;
+    function loadVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      preferredVoice =
+        voices.find(v => v.lang === 'es-MX') ||
+        voices.find(v => v.lang.startsWith('es-')) ||
+        null;
+    }
+    if ('speechSynthesis' in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function speakMX(text, rate = 1.02, pitch = 1.18) {
+      if (!gameState.soundEnabled || !('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'es-MX';
+        if (preferredVoice) utter.voice = preferredVoice;
+        utter.rate = rate;
+        utter.pitch = pitch;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    function speakIntro() {
+      initAudioContext();
+      speakMX('¡Hola! Soy un dinosaurio muy hambriento. Ayúdame a comer únicamente la fruta que tenga el número correcto.', 1.0, 1.18);
+    }
+
+    /*************************************************************************
+     * 5. RENDERIZADO DE GRÁFICOS VECTORIALES (DINOSAURIO, MASCOTAS, ESCENAS)
+     *************************************************************************/
+    function getCurrentEvolutionStage() {
+      let current = EVOLUTION_STAGES[0];
+      for (const stage of EVOLUTION_STAGES) {
+        if (gameState.xp >= stage.minXp) current = stage;
+      }
+      return current;
+    }
+
+    function renderDinosaur(mouthOpen = false, mood = 'happy') {
+      const stage = getCurrentEvolutionStage();
+      const wrapper = document.getElementById('dinoSvgWrapper');
+      if (!wrapper) return;
+
+      const auraClass = stage.id === 'king' ? 'king-aura' : '';
+      const scaleStyle = `transform: scale(${stage.scale});`;
+
+      // Expresión de ojos
+      let eyesHtml = `
+        <g id="dinoEyesGroup">
+          <circle cx="96" cy="76" r="13" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
+          <circle id="pupilLeft" cx="98" cy="76" r="6.5" fill="#0f172a" />
+          <circle cx="100" cy="73" r="2.5" fill="#ffffff" />
+
+          <circle cx="134" cy="76" r="13" fill="#ffffff" stroke="#1e293b" stroke-width="2.5" />
+          <circle id="pupilRight" cx="136" cy="76" r="6.5" fill="#0f172a" />
+          <circle cx="138" cy="73" r="2.5" fill="#ffffff" />
+        </g>
+      `;
+
+      if (mood === 'ecstatic') {
+        eyesHtml = `
+          <path d="M86 78 Q96 64 106 78" fill="none" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" />
+          <path d="M124 78 Q134 64 144 78" fill="none" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" />
+        `;
+      } else if (mood === 'sad') {
+        eyesHtml = `
+          <path d="M87 72 L104 82 M104 72 L87 82" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+          <path d="M125 72 L142 82 M142 72 L125 82" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+        `;
+      }
+
+      // Boca abierta grande para recibir fruta vs sonrisa normal
+      const mouthHtml = mouthOpen
+        ? `
+          <g id="dinoMouth">
+            <ellipse cx="115" cy="112" rx="28" ry="24" fill="#7f1d1d" stroke="#14532d" stroke-width="4" />
+            <path d="M95 124 Q115 112 135 124 Q115 135 95 124 Z" fill="#f43f5e" />
+            <!-- Dientitos tiernos -->
+            <polygon points="98,92 103,101 108,92" fill="#ffffff" />
+            <polygon points="122,92 127,101 132,92" fill="#ffffff" />
+            <polygon points="102,131 107,123 112,131" fill="#ffffff" />
+            <polygon points="118,131 123,123 128,131" fill="#ffffff" />
+          </g>
+        `
+        : `
+          <g id="dinoMouth">
+            <path d="M92 106 Q115 126 138 106" fill="none" stroke="#064e3b" stroke-width="4.5" stroke-linecap="round" />
+            <polygon points="100,111 104,118 108,112" fill="#ffffff" />
+            <polygon points="122,112 126,118 130,111" fill="#ffffff" />
+          </g>
+        `;
+
+      // Alas para Dino Guardián y Rey
+      const wingsHtml = stage.hasWings
+        ? `
+          <path d="M65 132 Q12 95 22 145 Q45 152 68 148 Z" fill="#fde047" stroke="#ca8a04" stroke-width="3" />
+          <path d="M162 132 Q215 95 205 145 Q182 152 159 148 Z" fill="#fde047" stroke="#ca8a04" stroke-width="3" />
+        `
+        : '';
+
+      // Corona dorada para Dino Rey
+      const crownHtml = stage.hasCrown
+        ? `
+          <g transform="translate(86, 8)">
+            <polygon points="4,30 10,8 22,22 30,4 38,22 50,8 56,30" fill="#facc15" stroke="#b45309" stroke-width="3" stroke-linejoin="round" />
+            <circle cx="30" cy="18" r="3.5" fill="#ef4444" />
+            <circle cx="15" cy="22" r="2.5" fill="#38bdf8" />
+            <circle cx="45" cy="22" r="2.5" fill="#10b981" />
+          </g>
+        `
+        : '';
+
+      // Cascarón inferior para etapa 1
+      const shellHtml = stage.hasShell
+        ? `
+          <path d="M62 162 L76 150 L90 164 L106 148 L122 164 L138 150 L154 162 C154 192 62 192 62 162 Z" fill="#fef9c3" stroke="#ca8a04" stroke-width="4" stroke-linejoin="round" />
+        `
+        : '';
+
+      wrapper.innerHTML = `
+        <svg viewBox="0 0 230 220" class="w-full h-full overflow-visible ${auraClass}" style="${scaleStyle}">
+          <!-- Sombra en el suelo -->
+          <ellipse cx="115" cy="204" rx="64" ry="13" fill="rgba(0,0,0,0.22)" />
+
+          <!-- Cola animada -->
+          <path class="dino-tail" d="M68 164 Q18 152 24 122 Q45 142 74 144 Z" fill="${stage.bodyColor}" stroke="#064e3b" stroke-width="4" stroke-linejoin="round" />
+
+          ${wingsHtml}
+
+          <!-- Patitas -->
+          <rect x="78" y="176" width="24" height="24" rx="10" fill="${stage.bodyColor}" stroke="#064e3b" stroke-width="4" />
+          <rect x="126" y="176" width="24" height="24" rx="10" fill="${stage.bodyColor}" stroke="#064e3b" stroke-width="4" />
+
+          <!-- Cuerpo -->
+          <ellipse cx="114" cy="148" rx="52" ry="46" fill="${stage.bodyColor}" stroke="#064e3b" stroke-width="4" />
+          <!-- Pancita -->
+          <ellipse cx="116" cy="154" rx="33" ry="32" fill="${stage.bellyColor}" />
+
+          <!-- Bracitos tiernos -->
+          <path d="M72 136 Q54 144 62 156" fill="none" stroke="#064e3b" stroke-width="6" stroke-linecap="round" />
+          <path d="M156 136 Q174 144 166 156" fill="none" stroke="#064e3b" stroke-width="6" stroke-linecap="round" />
+
+          ${shellHtml}
+
+          <!-- Crestas dorsales -->
+          <polygon points="82,48 92,28 102,45" fill="${stage.crestColor}" stroke="#064e3b" stroke-width="3" stroke-linejoin="round" />
+          <polygon points="105,43 115,22 125,43" fill="${stage.crestColor}" stroke="#064e3b" stroke-width="3" stroke-linejoin="round" />
+          <polygon points="128,48 138,28 148,48" fill="${stage.crestColor}" stroke="#064e3b" stroke-width="3" stroke-linejoin="round" />
+
+          <!-- Cabeza -->
+          <rect x="66" y="42" width="98" height="92" rx="44" fill="${stage.bodyColor}" stroke="#064e3b" stroke-width="4" />
+
+          <!-- Mejillas sonrojadas -->
+          <circle cx="80" cy="96" r="7" fill="#fb7185" opacity="0.65" />
+          <circle cx="150" cy="96" r="7" fill="#fb7185" opacity="0.65" />
+
+          <!-- Orificios nasales -->
+          <circle cx="109" cy="92" r="2.5" fill="#064e3b" />
+          <circle cx="121" cy="92" r="2.5" fill="#064e3b" />
+
+          ${eyesHtml}
+          ${mouthHtml}
+          ${crownHtml}
+        </svg>
+      `;
+    }
+
+    function getPetSvg(petId) {
+      const pet = PETS_CATALOG.find(p => p.id === petId) || PETS_CATALOG[0];
+      return `
+        <svg viewBox="0 0 120 120" class="w-full h-full">
+          <ellipse cx="60" cy="106" rx="34" ry="8" fill="rgba(0,0,0,0.2)" />
+          <ellipse cx="60" cy="74" rx="32" ry="26" fill="${pet.color}" stroke="#1e293b" stroke-width="3.5" />
+          <circle cx="62" cy="46" r="24" fill="${pet.color}" stroke="#1e293b" stroke-width="3.5" />
+          <polygon points="44,30 36,14 52,24" fill="${pet.horn}" stroke="#1e293b" stroke-width="2.5" />
+          <polygon points="78,30 86,14 70,24" fill="${pet.horn}" stroke="#1e293b" stroke-width="2.5" />
+          <circle cx="53" cy="43" r="6" fill="#fff" />
+          <circle cx="54" cy="43" r="3" fill="#0f172a" />
+          <circle cx="71" cy="43" r="6" fill="#fff" />
+          <circle cx="72" cy="43" r="3" fill="#0f172a" />
+          <path d="M53 56 Q62 64 71 56" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round" />
+        </svg>
+      `;
+    }
+
+    function renderSceneBackdrop() {
+      const container = document.getElementById('sceneBackdrop');
+      const root = document.getElementById('appRoot');
+      const scene = SCENES.find(s => s.id === gameState.currentScene) || SCENES[0];
+
+      if (!arActive) {
+        root.className = `relative w-full h-full overflow-hidden ${scene.cssClass} transition-colors duration-700 select-none`;
+      }
+
+      if (gameState.currentScene === 'jungle') {
+        container.innerHTML = `
+          <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" class="w-full h-full opacity-90">
+            <!-- Sol cálido -->
+            <circle cx="160" cy="120" r="65" fill="#fef08a" opacity="0.8" />
+            <!-- Montañas lejanas -->
+            <path d="M0 540 L240 310 L490 540 Z" fill="#166534" opacity="0.45" />
+            <path d="M380 540 L680 280 L980 540 Z" fill="#15803d" opacity="0.45" />
+            <path d="M780 540 L1050 320 L1250 540 Z" fill="#166534" opacity="0.45" />
+            <!-- Colinas verdes -->
+            <ellipse cx="300" cy="760" rx="520" ry="220" fill="#22c55e" />
+            <ellipse cx="920" cy="770" rx="540" ry="230" fill="#16a34a" />
+            <!-- Palmeras / Helechos laterales -->
+            <path d="M-20 800 L40 420 L90 800 Z" fill="#78350f" />
+            <ellipse cx="45" cy="410" rx="110" ry="45" fill="#15803d" />
+            <ellipse cx="85" cy="390" rx="95" ry="40" fill="#22c55e" />
+            <path d="M1130 800 L1170 430 L1220 800 Z" fill="#78350f" />
+            <ellipse cx="1160" cy="420" rx="110" ry="45" fill="#15803d" />
+          </svg>
+        `;
+      } else if (gameState.currentScene === 'volcano') {
+        container.innerHTML = `
+          <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" class="w-full h-full opacity-90">
+            <!-- Volcán central humeante -->
+            <polygon points="340,620 530,240 670,240 860,620" fill="#451a03" />
+            <path d="M530 240 Q560 290 580 250 Q610 310 640 255 L670 240 Z" fill="#f97316" />
+            <path d="M555 250 L540 380 L575 330 L600 410 L625 320 L645 250 Z" fill="#ef4444" />
+            <!-- Suelo volcánico -->
+            <ellipse cx="600" cy="770" rx="750" ry="210" fill="#7c2d12" />
+            <ellipse cx="220" cy="680" rx="85" ry="22" fill="#f97316" opacity="0.85" />
+            <ellipse cx="960" cy="695" rx="95" ry="24" fill="#ef4444" opacity="0.85" />
+          </svg>
+        `;
+      } else {
+        container.innerHTML = `
+          <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" class="w-full h-full opacity-95">
+            <!-- Montañas nevadas -->
+            <polygon points="60,600 320,230 580,600" fill="#94a3b8" />
+            <polygon points="320,230 245,340 290,325 320,355 355,320 395,340" fill="#ffffff" />
+            <polygon points="520,600 830,200 1140,600" fill="#64748b" />
+            <polygon points="830,200 740,320 795,305 830,340 870,300 920,320" fill="#ffffff" />
+            <!-- Colinas de nieve -->
+            <ellipse cx="320" cy="770" rx="560" ry="210" fill="#f8fafc" />
+            <ellipse cx="900" cy="775" rx="560" ry="215" fill="#e2e8f0" />
+          </svg>
+        `;
+      }
+    }
+
+    /*************************************************************************
+     * 6. GENERACIÓN DE PROBLEMAS MATEMÁTICOS Y FRUTAS INTERACTIVAS
+     *************************************************************************/
+    let currentProblem = { text: '6 + 3', answer: 9, a: 6, b: 3, op: '+' };
+    let isRoundLocked = false;
+
+    function generateMathProblem() {
+      const diff = gameState.difficulty;
+      let a = 1, b = 1, op = '+', answer = 2;
+
+      if (diff === 'baby') {
+        // Sumas fáciles hasta 10
+        a = Math.floor(Math.random() * 6) + 1; // 1..6
+        b = Math.floor(Math.random() * (10 - a)) + 1; // resultado <= 10
+        op = '+';
+        answer = a + b;
+      } else if (diff === 'young') {
+        // Sumas hasta 20
+        a = Math.floor(Math.random() * 11) + 4; // 4..14
+        b = Math.floor(Math.random() * (20 - a)) + 1; // resultado <= 20
+        op = '+';
+        answer = a + b;
+      } else {
+        // Dino Rey: operaciones mixtas (+, -, ×)
+        const mode = Math.floor(Math.random() * 3);
+        if (mode === 0) {
+          a = Math.floor(Math.random() * 15) + 6;
+          b = Math.floor(Math.random() * 12) + 3;
+          op = '+';
+          answer = a + b;
+        } else if (mode === 1) {
+          a = Math.floor(Math.random() * 14) + 6;
+          b = Math.floor(Math.random() * (a - 1)) + 1;
+          op = '−';
+          answer = a - b;
+        } else {
+          a = Math.floor(Math.random() * 5) + 2; // 2..6
+          b = Math.floor(Math.random() * 5) + 2; // 2..6
+          op = '×';
+          answer = a * b;
+        }
+      }
+
+      currentProblem = {
+        a,
+        b,
+        op,
+        answer,
+        text: `${a} ${op} ${b}`
+      };
+
+      const problemEl = document.getElementById('mathProblemText');
+      problemEl.textContent = currentProblem.text;
+
+      // Re-disparar animación de nube
+      const bubble = document.getElementById('thoughtBubble');
+      bubble.classList.remove('thought-bubble');
+      void bubble.offsetWidth;
+      bubble.classList.add('thought-bubble');
+
+      spawnFruitsForProblem(answer);
+      isRoundLocked = false;
+    }
+
+    function speakCurrentProblem() {
+      initAudioContext();
+      let spokenOp = 'más';
+      if (currentProblem.op === '−') spokenOp = 'menos';
+      if (currentProblem.op === '×') spokenOp = 'por';
+      speakMX(`¿Cuánto es ${currentProblem.a} ${spokenOp} ${currentProblem.b}?`);
+    }
+
+    function spawnFruitsForProblem(correctAnswer) {
+      const zone = document.getElementById('fruitsZone');
+      zone.innerHTML = '';
+
+      const count = gameState.difficulty === 'baby' ? 3 : 4;
+      const options = new Set([correctAnswer]);
+
+      while (options.size < count) {
+        const offset = Math.floor(Math.random() * 7) - 3; // -3..+3
+        const candidate = correctAnswer + offset;
+        if (candidate > 0 && candidate !== correctAnswer) {
+          options.add(candidate);
+        } else {
+          options.add(correctAnswer + options.size + 1);
+        }
+      }
+
+      // Mezclar opciones y asignar frutas únicas
+      const shuffledNumbers = Array.from(options).sort(() => Math.random() - 0.5);
+      const shuffledFruits = [...FRUITS_CATALOG].sort(() => Math.random() - 0.5);
+
+      shuffledNumbers.forEach((num, idx) => {
+        const fruit = shuffledFruits[idx % shuffledFruits.length];
+        const card = document.createElement('div');
+        card.className = `fruit-item fruit-float cursor-grab active:cursor-grabbing relative flex flex-col items-center justify-center w-24 h-28 sm:w-32 sm:h-36 rounded-3xl bg-gradient-to-b ${fruit.bg} border-4 ${fruit.border} shadow-xl select-none touch-none transition-transform`;
+        card.style.animationDelay = `${idx * 0.35}s`;
+        card.dataset.value = num;
+        card.dataset.fruitName = fruit.name;
+
+        card.innerHTML = `
+          <span class="text-4xl sm:text-5xl drop-shadow-md pointer-events-none">${fruit.emoji}</span>
+          <span class="mt-1 px-3 py-0.5 rounded-2xl bg-white text-slate-900 font-display font-bold text-2xl sm:text-3xl shadow-inner pointer-events-none">
+            ${num}
+          </span>
+        `;
+
+        setupFruitDrag(card);
+        zone.appendChild(card);
+      });
+    }
+
+    /*************************************************************************
+     * 7. INTERACCIÓN DRAG & DROP TÁCTIL Y CON MOUSE + SEGUIMIENTO DE OJOS
+     *************************************************************************/
+    function setupFruitDrag(el) {
+      let isDragging = false;
+      let startX = 0, startY = 0;
+      let currentX = 0, currentY = 0;
+
+      const onPointerDown = (e) => {
+        if (isRoundLocked) return;
+        initAudioContext();
+        isDragging = true;
+        el.setPointerCapture(e.pointerId);
+        el.classList.remove('fruit-float');
+        el.style.zIndex = '45';
+        el.style.transition = 'none';
+        el.style.transform = 'scale(1.15)';
+
+        startX = e.clientX - currentX;
+        startY = e.clientY - currentY;
+        playSound('pop');
+      };
+
+      const onPointerMove = (e) => {
+        if (!isDragging) return;
+        currentX = e.clientX - startX;
+        currentY = e.clientY - startY;
+        el.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.15)`;
+
+        // Hacer que los ojos del dinosaurio sigan la fruta
+        updateDinoEyes(e.clientX, e.clientY);
+
+        // Verificar proximidad a la boca del dinosaurio
+        const dinoRect = document.getElementById('dinoDropZone').getBoundingClientRect();
+        const fruitRect = el.getBoundingClientRect();
+        const fruitCenterX = fruitRect.left + fruitRect.width / 2;
+        const fruitCenterY = fruitRect.top + fruitRect.height / 2;
+        const dinoMouthX = dinoRect.left + dinoRect.width / 2;
+        const dinoMouthY = dinoRect.top + dinoRect.height * 0.48;
+
+        const dist = Math.hypot(fruitCenterX - dinoMouthX, fruitCenterY - dinoMouthY);
+        const glow = document.getElementById('mouthTargetGlow');
+
+        if (dist < 135) {
+          glow.style.opacity = '1';
+          renderDinosaur(true, 'happy');
+        } else {
+          glow.style.opacity = '0';
+          renderDinosaur(false, 'happy');
+        }
+      };
+
+      const onPointerUp = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        el.releasePointerCapture(e.pointerId);
+        document.getElementById('mouthTargetGlow').style.opacity = '0';
+
+        const dinoRect = document.getElementById('dinoDropZone').getBoundingClientRect();
+        const fruitRect = el.getBoundingClientRect();
+        const fruitCenterX = fruitRect.left + fruitRect.width / 2;
+        const fruitCenterY = fruitRect.top + fruitRect.height / 2;
+        const dinoMouthX = dinoRect.left + dinoRect.width / 2;
+        const dinoMouthY = dinoRect.top + dinoRect.height * 0.48;
+
+        const dist = Math.hypot(fruitCenterX - dinoMouthX, fruitCenterY - dinoMouthY);
+
+        if (dist < 135) {
+          // Soltado en la boca del dinosaurio
+          const chosenValue = parseInt(el.dataset.value, 10);
+          handleFruitFed(el, chosenValue);
+        } else {
+          // Regresar suavemente a su lugar
+          renderDinosaur(false, 'happy');
+          el.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          currentX = 0;
+          currentY = 0;
+          el.style.transform = 'translate(0px, 0px) scale(1)';
+          el.style.zIndex = '30';
+          setTimeout(() => {
+            if (!isDragging) el.classList.add('fruit-float');
+          }, 360);
+        }
+      };
+
+      el.addEventListener('pointerdown', onPointerDown);
+      el.addEventListener('pointermove', onPointerMove);
+      el.addEventListener('pointerup', onPointerUp);
+      el.addEventListener('pointercancel', onPointerUp);
+    }
+
+    function updateDinoEyes(clientX, clientY) {
+      const pL = document.getElementById('pupilLeft');
+      const pR = document.getElementById('pupilRight');
+      const dinoRect = document.getElementById('dinoDropZone').getBoundingClientRect();
+      if (!pL || !pR) return;
+
+      const dx = Math.max(-4, Math.min(4, (clientX - (dinoRect.left + dinoRect.width / 2)) / 50));
+      const dy = Math.max(-4, Math.min(4, (clientY - (dinoRect.top + dinoRect.height / 2)) / 50));
+
+      pL.setAttribute('cx', 98 + dx);
+      pL.setAttribute('cy', 76 + dy);
+      pR.setAttribute('cx', 136 + dx);
+      pR.setAttribute('cy', 76 + dy);
+    }
+
+    /*************************************************************************
+     * 8. EVALUACIÓN DE RESPUESTA, EVOLUCIÓN Y HUEVOS SORPRESA
+     *************************************************************************/
+    const PRAISE_PHRASES = [
+      '¡Mmm, qué delicioso! ¡Excelente!',
+      '¡Muy bien hecho! ¡Eres un genio!',
+      '¡Yumi! ¡Esa era la fruta correcta!',
+      '¡Fantástico! ¡Sigue así!'
+    ];
+
+    function handleFruitFed(fruitEl, value) {
+      if (isRoundLocked) return;
+
+      if (value === currentProblem.answer) {
+        isRoundLocked = true;
+        fruitEl.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        fruitEl.style.transform += ' scale(0.1)';
+        fruitEl.style.opacity = '0';
+
+        // Animación de masticar y rugido alegre
+        renderDinosaur(false, 'ecstatic');
+        const wrapper = document.getElementById('dinoSvgWrapper');
+        wrapper.classList.remove('dino-breathe');
+        wrapper.classList.add('dino-chew');
+
+        // Sacudida épica y confeti
+        document.getElementById('appRoot').classList.add('shake-screen');
+        setTimeout(() => document.getElementById('appRoot').classList.remove('shake-screen'), 420);
+
+        playSound('chew');
+        setTimeout(() => playSound('roar'), 250);
+        setTimeout(() => playSound('win'), 450);
+
+        const dinoRect = document.getElementById('dinoDropZone').getBoundingClientRect();
+        spawnConfetti(dinoRect.left + dinoRect.width / 2, dinoRect.top + dinoRect.height * 0.4, 42);
+
+        // Sumar progreso
+        const prevStage = getCurrentEvolutionStage();
+        gameState.stars += 5;
+        gameState.xp += 15;
+        gameState.streak += 1;
+
+        // Cada 3 aciertos consecutivos otorga un Huevo Sorpresa
+        let earnedEgg = false;
+        if (gameState.streak % 3 === 0) {
+          gameState.pendingEggs += 1;
+          earnedEgg = true;
+        }
+
+        saveState();
+        updateHUD();
+
+        const newStage = getCurrentEvolutionStage();
+        const phrase = PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
+        setFeedbackText(phrase);
+
+        if (newStage.id !== prevStage.id) {
+          speakMX(`¡Guau! ¡Tu dinosaurio evolucionó a ${newStage.name}!`);
+          showToast(`✨ ¡EVOLUCIÓN! Ahora tienes un ${newStage.name}`);
+          spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 80);
+        } else if (earnedEgg) {
+          speakMX(`${phrase} ¡Ganaste un huevo sorpresa!`);
+          showToast('🥚 ¡Ganaste un Huevo Sorpresa! Tócalo arriba');
+        } else {
+          speakMX(phrase);
+        }
+
+        setTimeout(() => {
+          wrapper.classList.remove('dino-chew');
+          wrapper.classList.add('dino-breathe');
+          renderDinosaur(false, 'happy');
+          generateMathProblem();
+        }, 1650);
+
+      } else {
+        // Respuesta incorrecta: gesto de "no" y rebote amable
+        renderDinosaur(false, 'sad');
+        const wrapper = document.getElementById('dinoSvgWrapper');
+        wrapper.classList.add('dino-no');
+        playSound('wrong');
+
+        gameState.streak = 0;
+        saveState();
+        updateHUD();
+
+        const msg = '¡Uy, esa no es! Inténtalo de nuevo, tú puedes.';
+        setFeedbackText(msg);
+        speakMX(msg);
+
+        // Devolver fruta a su posición original
+        fruitEl.style.transition = 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        fruitEl.style.transform = 'translate(0px, 0px) scale(1)';
+        fruitEl.style.zIndex = '30';
+
+        setTimeout(() => {
+          wrapper.classList.remove('dino-no');
+          renderDinosaur(false, 'happy');
+          fruitEl.classList.add('fruit-float');
+        }, 700);
+      }
+    }
+
+    function giveVisualHint() {
+      initAudioContext();
+      const fruits = document.querySelectorAll('.fruit-item');
+      fruits.forEach(f => {
+        if (parseInt(f.dataset.value, 10) === currentProblem.answer) {
+          f.classList.add('ring-4', 'ring-yellow-300', 'scale-110');
+          setTimeout(() => f.classList.remove('ring-4', 'ring-yellow-300', 'scale-110'), 1400);
+        }
+      });
+      speakMX(`Pista: la respuesta correcta es ${currentProblem.answer}`);
+      showToast(`💡 Pista: busca el número ${currentProblem.answer}`);
+    }
+
+    /*************************************************************************
+     * 9. RECONOCIMIENTO DE VOZ (MICRÓFONO EN ESPAÑOL DE MÉXICO)
+     *************************************************************************/
+    let recognition = null;
+    let isListening = false;
+
+    const SPANISH_NUMBERS = {
+      'cero': 0, 'uno': 1, 'una': 1, 'dos': 2, 'tres': 3, 'cuatro': 4,
+      'cinco': 5, 'seis': 6, 'siete': 7, 'ocho': 8, 'nueve': 9, 'diez': 10,
+      'once': 11, 'doce': 12, 'trece': 13, 'catorce': 14, 'quince': 15,
+      'dieciseis': 16, 'dieciséis': 16, 'diecisiete': 17, 'dieciocho': 18,
+      'diecinueve': 19, 'veinte': 20, 'veintiuno': 21, 'veintidos': 22,
+      'veintidós': 22, 'veintitres': 23, 'veintitrés': 23, 'veinticuatro': 24,
+      'veinticinco': 25, 'veintiseis': 26, 'veintisiete': 27, 'veintiocho': 28,
+      'veintinueve': 29, 'treinta': 30, 'treinta y cinco': 35, 'treinta y seis': 36
+    };
+
+    function parseSpokenNumber(transcript) {
+      const clean = transcript.toLowerCase().trim();
+      const digitMatch = clean.match(/\d+/);
+      if (digitMatch) return parseInt(digitMatch[0], 10);
+
+      for (const [word, val] of Object.entries(SPANISH_NUMBERS)) {
+        if (clean.includes(word)) return val;
+      }
+      return null;
+    }
+
+    function toggleSpeechRecognition() {
+      initAudioContext();
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        showToast('🎤 Tu navegador no soporta micrófono. ¡Arrastra la fruta con tu dedo!');
+        speakMX('Tu navegador no soporta micrófono, pero puedes arrastrar la fruta hacia mi boca.');
+        return;
+      }
+
+      if (isListening && recognition) {
+        recognition.stop();
+        return;
+      }
+
+      try {
+        recognition = new SpeechRec();
+        recognition.lang = 'es-MX';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 3;
+
+        const micBtn = document.getElementById('micBtn');
+        const micLabel = document.getElementById('micBtnLabel');
+
+        recognition.onstart = () => {
+          isListening = true;
+          micBtn.classList.add('mic-recording');
+          micLabel.textContent = 'Escuchando...';
+          showToast('🎤 ¡Di el número en voz alta!');
+        };
+
+        recognition.onresult = (event) => {
+          let detectedNumber = null;
+          let heardText = '';
+
+          for (let i = 0; i < event.results[0].length; i++) {
+            const text = event.results[0][i].transcript;
+            if (!heardText) heardText = text;
+            const parsed = parseSpokenNumber(text);
+            if (parsed !== null) {
+              detectedNumber = parsed;
+              if (parsed === currentProblem.answer) break;
+            }
+          }
+
+          if (detectedNumber !== null) {
+            showToast(`🗣️ Dijiste: "${detectedNumber}"`);
+            flyFruitToMouth(detectedNumber);
+          } else {
+            showToast(`🗣️ Escuché "${heardText}". Intenta decir el número.`);
+            speakMX('No entendí el número, inténtalo de nuevo.');
+          }
+        };
+
+        recognition.onerror = () => {
+          showToast('🎤 No se pudo escuchar. Revisa el permiso del micrófono.');
+        };
+
+        recognition.onend = () => {
+          isListening = false;
+          micBtn.classList.remove('mic-recording');
+          micLabel.textContent = 'Decir Respuesta';
+        };
+
+        recognition.start();
+      } catch (err) {
+        showToast('🎤 Activa los permisos de micrófono en tu navegador.');
+      }
+    }
+
+    function flyFruitToMouth(numberValue) {
+      const fruits = Array.from(document.querySelectorAll('.fruit-item'));
+      let targetFruit = fruits.find(f => parseInt(f.dataset.value, 10) === numberValue);
+
+      if (!targetFruit && fruits.length > 0) {
+        targetFruit = fruits[0];
+      }
+      if (!targetFruit) return;
+
+      const dinoRect = document.getElementById('dinoDropZone').getBoundingClientRect();
+      const fruitRect = targetFruit.getBoundingClientRect();
+      const dx = (dinoRect.left + dinoRect.width / 2) - (fruitRect.left + fruitRect.width / 2);
+      const dy = (dinoRect.top + dinoRect.height * 0.45) - (fruitRect.top + fruitRect.height / 2);
+
+      targetFruit.classList.remove('fruit-float');
+      targetFruit.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
+      targetFruit.style.transform = `translate(${dx}px, ${dy}px) scale(1.1)`;
+      renderDinosaur(true, 'happy');
+
+      setTimeout(() => {
+        handleFruitFed(targetFruit, numberValue);
+      }, 560);
+    }
+
+    /*************************************************************************
+     * 10. MODO CÁMARA / REALIDAD AUMENTADA (AR) Y CAPTURA DE FOTO
+     *************************************************************************/
+    let arActive = false;
+    let arStream = null;
+
+    async function toggleARMode() {
+      initAudioContext();
+      const videoEl = document.getElementById('arVideo');
+      const backdrop = document.getElementById('sceneBackdrop');
+      const root = document.getElementById('appRoot');
+      const arBtnLabel = document.getElementById('arBtnLabel');
+      const photoBtn = document.getElementById('arPhotoBtn');
+
+      if (!arActive) {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          showToast('📷 Cámara no disponible en este dispositivo.');
+          return;
+        }
+        try {
+          arStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment' },
+            audio: false
+          });
+          videoEl.srcObject = arStream;
+          videoEl.classList.remove('hidden');
+          backdrop.classList.add('hidden');
+          root.className = 'relative w-full h-full overflow-hidden bg-ar select-none';
+          arActive = true;
+          arBtnLabel.textContent = 'Salir AR';
+          photoBtn.classList.remove('hidden');
+          photoBtn.classList.add('flex');
+          speakMX('¡Modo realidad aumentada activado! ¡Mira, estoy en tu habitación!');
+          showToast('📷 ¡El dinosaurio apareció en tu mundo real!');
+        } catch (err) {
+          showToast('📷 No se pudo acceder a la cámara. Verifica los permisos.');
+        }
+      } else {
+        if (arStream) {
+          arStream.getTracks().forEach(track => track.stop());
+          arStream = null;
+        }
+        videoEl.classList.add('hidden');
+        backdrop.classList.remove('hidden');
+        arActive = false;
+        arBtnLabel.textContent = 'Modo AR';
+        photoBtn.classList.add('hidden');
+        photoBtn.classList.remove('flex');
+        renderSceneBackdrop();
+        showToast('🌍 Regresaste al mundo prehistórico');
+      }
+    }
+
+    function takeARPhoto() {
+      const videoEl = document.getElementById('arVideo');
+      if (!arActive || !videoEl.videoWidth) return;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = videoEl.videoWidth;
+      canvas.height = videoEl.videoHeight;
+      const ctx = canvas.getContext('2d');
+
+      // Dibujar frame de la cámara
+      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+
+      // Dibujar marco y sello conmemorativo
+      ctx.fillStyle = 'rgba(21, 128, 61, 0.85)';
+      ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 28px sans-serif';
+      ctx.fillText('🦖 Alimenta al Dinosaurio - Así Aprenderás Jugando', 28, canvas.height - 32);
+
+      const link = document.createElement('a');
+      link.download = `mi-dinosaurio-ar-${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      playSound('win');
+      showToast('📸 ¡Foto guardada en tu dispositivo!');
+    }
+
+    /*************************************************************************
+     * 11. HUEVOS SORPRESA, MASCOTAS COLECCIONABLES Y RECOMPENSAS DIARIAS
+     *************************************************************************/
+    let eggTaps = 0;
+    const TAPS_TO_HATCH = 5;
+
+    function openEggModal() {
+      if (gameState.pendingEggs <= 0) return;
+      eggTaps = 0;
+      document.getElementById('eggTapBar').style.width = '0%';
+      document.getElementById('eggCrack1').classList.add('hidden');
+      document.getElementById('eggCrack2').classList.add('hidden');
+      document.getElementById('surpriseEggContainer').classList.remove('hidden');
+      document.getElementById('eggTapProgress').classList.remove('hidden');
+      document.getElementById('eggRewardReveal').classList.add('hidden');
+      document.getElementById('eggRewardReveal').classList.remove('flex');
+      document.getElementById('eggModal').classList.remove('hidden');
+      speakMX('¡Tienes un huevo sorpresa! Tócalo varias veces para abrirlo.');
+    }
+
+    function tapSurpriseEgg() {
+      initAudioContext();
+      eggTaps++;
+      playSound('crack');
+
+      const svg = document.getElementById('surpriseEggSvg');
+      svg.classList.remove('egg-wobble');
+      void svg.offsetWidth;
+      svg.classList.add('egg-wobble');
+
+      const pct = Math.min(100, (eggTaps / TAPS_TO_HATCH) * 100);
+      document.getElementById('eggTapBar').style.width = `${pct}%`;
+
+      if (eggTaps >= 2) document.getElementById('eggCrack1').classList.remove('hidden');
+      if (eggTaps >= 4) document.getElementById('eggCrack2').classList.remove('hidden');
+
+      if (eggTaps >= TAPS_TO_HATCH) {
+        // Eclosionar mascota
+        gameState.pendingEggs = Math.max(0, gameState.pendingEggs - 1);
+        const locked = PETS_CATALOG.filter(p => !gameState.unlockedPets.includes(p.id));
+        const chosenPet = locked.length > 0
+          ? locked[Math.floor(Math.random() * locked.length)]
+          : PETS_CATALOG[Math.floor(Math.random() * PETS_CATALOG.length)];
+
+        if (!gameState.unlockedPets.includes(chosenPet.id)) {
+          gameState.unlockedPets.push(chosenPet.id);
+        }
+        gameState.activePet = chosenPet.id;
+        gameState.stars += 10;
+        saveState();
+        updateHUD();
+
+        playSound('win');
+        spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 70);
+
+        document.getElementById('surpriseEggContainer').classList.add('hidden');
+        document.getElementById('eggTapProgress').classList.add('hidden');
+        document.getElementById('revealedPetSvg').innerHTML = getPetSvg(chosenPet.id);
+        document.getElementById('revealedPetTitle').textContent = `¡Nació ${chosenPet.name}!`;
+        document.getElementById('revealedPetDesc').textContent = `${chosenPet.desc} (+10 estrellas ⭐)`;
+
+        const revealDiv = document.getElementById('eggRewardReveal');
+        revealDiv.classList.remove('hidden');
+        revealDiv.classList.add('flex');
+
+        speakMX(`¡Felicidades! ¡Nació un ${chosenPet.name}!`);
+      }
+    }
+
+    function closeEggModal() {
+      document.getElementById('eggModal').classList.add('hidden');
+    }
+
+    function petInteract() {
+      initAudioContext();
+      playSound('pop');
+      const pet = PETS_CATALOG.find(p => p.id === gameState.activePet) || PETS_CATALOG[0];
+      showToast(`🐾 ${pet.name}: "¡Tú puedes resolverlo!"`);
+    }
+
+    // Recompensas Diarias
+    function getTodayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function checkDailyRewardAuto() {
+      const today = getTodayKey();
+      if (gameState.lastDailyClaim !== today) {
+        openDailyModal();
+      }
+    }
+
+    function openDailyModal() {
+      const grid = document.getElementById('dailyDaysGrid');
+      const today = getTodayKey();
+      const claimedToday = gameState.lastDailyClaim === today;
+      const rewards = ['⭐ +10', '⭐ +15', '🥚 Huevo', '⭐ +25', '👑 +40'];
+
+      grid.innerHTML = rewards.map((rew, idx) => {
+        const dayNum = idx + 1;
+        const isCurrent = ((gameState.dailyStreak - 1) % 5) === idx;
+        return `
+          <div class="p-2 rounded-2xl border-2 ${isCurrent ? 'border-amber-500 bg-amber-200 scale-105 shadow' : 'border-amber-200 bg-white'} flex flex-col items-center">
+            <span class="text-[10px] font-black text-amber-800">Día ${dayNum}</span>
+            <span class="text-xs font-extrabold text-slate-800 mt-1">${rew}</span>
+          </div>
+        `;
+      }).join('');
+
+      const btn = document.getElementById('claimDailyBtn');
+      if (claimedToday) {
+        btn.textContent = '✅ ¡Regalo de hoy reclamado!';
+        btn.disabled = true;
+        btn.classList.add('opacity-60');
+      } else {
+        btn.textContent = '¡Reclamar Regalo de Hoy! 🎁';
+        btn.disabled = false;
+        btn.classList.remove('opacity-60');
+      }
+
+      document.getElementById('dailyModal').classList.remove('hidden');
+    }
+
+    function claimDailyReward() {
+      const today = getTodayKey();
+      if (gameState.lastDailyClaim === today) return;
+
+      initAudioContext();
+      playSound('win');
+      gameState.lastDailyClaim = today;
+      const dayIdx = (gameState.dailyStreak - 1) % 5;
+
+      if (dayIdx === 2) {
+        gameState.pendingEggs += 1;
+        showToast('🥚 ¡Ganaste un Huevo Sorpresa Diario!');
+      } else {
+        const bonus = (dayIdx + 1) * 10;
+        gameState.stars += bonus;
+        showToast(`⭐ ¡Ganaste +${bonus} estrellas diarias!`);
+      }
+
+      gameState.dailyStreak += 1;
+      saveState();
+      updateHUD();
+      spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 50);
+      speakMX('¡Excelente! Gracias por regresar a jugar hoy.');
+      closeDailyModal();
+    }
+
+    function closeDailyModal() {
+      document.getElementById('dailyModal').classList.add('hidden');
+    }
+
+    // Colección de Escenarios y Mascotas
+    function openCollectionModal() {
+      const scenesGrid = document.getElementById('scenesGrid');
+      scenesGrid.innerHTML = SCENES.map(sc => {
+        const unlocked = gameState.unlockedScenes.includes(sc.id);
+        const active = gameState.currentScene === sc.id;
+        return `
+          <div onclick="selectOrUnlockScene('${sc.id}')" class="cursor-pointer p-3 rounded-2xl border-3 ${active ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50'} transition hover:shadow-md">
+            <div class="font-display font-bold text-slate-900 text-base">${sc.name}</div>
+            <div class="text-xs text-slate-600 mb-2">${sc.desc}</div>
+            ${
+              active
+                ? '<span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">Activo</span>'
+                : unlocked
+                ? '<span class="inline-block px-2.5 py-0.5 rounded-full bg-sky-500 text-white text-xs font-bold">Seleccionar</span>'
+                : `<span class="inline-block px-2.5 py-0.5 rounded-full bg-amber-400 text-amber-950 text-xs font-extrabold">Desbloquear ⭐ ${sc.cost}</span>`
+            }
+          </div>
+        `;
+      }).join('');
+
+      const petsGrid = document.getElementById('petsGrid');
+      petsGrid.innerHTML = PETS_CATALOG.map(pet => {
+        const unlocked = gameState.unlockedPets.includes(pet.id);
+        const active = gameState.activePet === pet.id;
+        return `
+          <div onclick="equipPet('${pet.id}')" class="cursor-pointer p-3 rounded-2xl border-2 ${active ? 'border-purple-500 bg-purple-50' : 'border-slate-200 bg-white'} flex flex-col items-center text-center transition">
+            <div class="w-16 h-16 ${unlocked ? '' : 'grayscale opacity-40'}">
+              ${getPetSvg(pet.id)}
+            </div>
+            <div class="font-display font-bold text-sm text-slate-800 mt-1">
+              ${unlocked ? pet.name : '??? (Huevo Sorpresa)'}
+            </div>
+            <span class="mt-1 text-[11px] font-extrabold ${active ? 'text-purple-700' : 'text-slate-500'}">
+              ${active ? '⭐ Acompañándote' : unlocked ? 'Tocar para elegir' : 'Bloqueada'}
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('collectionModal').classList.remove('hidden');
+    }
+
+    function selectOrUnlockScene(sceneId) {
+      const sc = SCENES.find(s => s.id === sceneId);
+      if (!sc) return;
+
+      if (gameState.unlockedScenes.includes(sceneId)) {
+        gameState.currentScene = sceneId;
+        saveState();
+        renderSceneBackdrop();
+        openCollectionModal();
+        showToast(`🌍 Escenario cambiado a ${sc.name}`);
+      } else if (gameState.stars >= sc.cost) {
+        gameState.stars -= sc.cost;
+        gameState.unlockedScenes.push(sceneId);
+        gameState.currentScene = sceneId;
+        saveState();
+        updateHUD();
+        renderSceneBackdrop();
+        openCollectionModal();
+        playSound('win');
+        showToast(`🎉 ¡Desbloqueaste ${sc.name}!`);
+      } else {
+        showToast(`⭐ Necesitas ${sc.cost} estrellas para este escenario`);
+      }
+    }
+
+    function equipPet(petId) {
+      if (!gameState.unlockedPets.includes(petId)) {
+        showToast('🥚 ¡Sigue acertando para ganar Huevos Sorpresa!');
+        return;
+      }
+      gameState.activePet = petId;
+      saveState();
+      updateHUD();
+      openCollectionModal();
+      playSound('pop');
+    }
+
+    function closeCollectionModal() {
+      document.getElementById('collectionModal').classList.add('hidden');
+    }
+
+    /*************************************************************************
+     * 12. NIVELES DE DIFICULTAD Y ACTUALIZACIÓN DE INTERFAZ (HUD)
+     *************************************************************************/
+    function selectDifficulty(lvl) {
+      gameState.difficulty = lvl;
+      saveState();
+
+      document.querySelectorAll('.start-lvl-btn').forEach(btn => {
+        btn.classList.remove('border-emerald-500', 'bg-emerald-100', 'text-emerald-900', 'border-3');
+        btn.classList.add('border-amber-300', 'bg-white', 'text-slate-700', 'border-2');
+      });
+      const activeBtn = document.getElementById(`startLvl-${lvl}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-amber-300', 'bg-white', 'text-slate-700', 'border-2');
+        activeBtn.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900', 'border-3');
+      }
+      updateHUD();
+    }
+
+    function openDifficultyModal() {
+      document.getElementById('difficultyModal').classList.remove('hidden');
+    }
+
+    function closeDifficultyModal() {
+      document.getElementById('difficultyModal').classList.add('hidden');
+    }
+
+    function changeDifficultyAndClose(lvl) {
+      selectDifficulty(lvl);
+      closeDifficultyModal();
+      generateMathProblem();
+      speakCurrentProblem();
+    }
+
+    function updateHUD() {
+      const stage = getCurrentEvolutionStage();
+      const nextStage = EVOLUTION_STAGES.find(s => s.minXp > gameState.xp);
+      const nextXp = nextStage ? nextStage.minXp : stage.minXp + 100;
+      const prevXp = stage.minXp;
+      const pct = nextStage
+        ? Math.min(100, Math.max(8, ((gameState.xp - prevXp) / (nextXp - prevXp)) * 100))
+        : 100;
+
+      document.getElementById('evoBadge').textContent = stage.name;
+      document.getElementById('scoreDisplay').textContent = gameState.stars;
+      document.getElementById('streakDisplay').textContent = gameState.streak;
+
+      document.getElementById('xpBar').style.width = `${pct}%`;
+      document.getElementById('xpText').textContent = `${gameState.xp} / ${nextXp} XP`;
+      document.getElementById('xpBarMobile').style.width = `${pct}%`;
+      document.getElementById('xpTextMobile').textContent = `${gameState.xp}/${nextXp}`;
+
+      const lvlNames = { baby: 'Bebé', young: 'Joven', king: 'Rey' };
+      document.getElementById('currentLvlShort').textContent = lvlNames[gameState.difficulty] || 'Bebé';
+
+      const eggBtn = document.getElementById('eggIndicatorBtn');
+      if (gameState.pendingEggs > 0) {
+        eggBtn.classList.remove('hidden');
+        document.getElementById('eggCountBadge').textContent = gameState.pendingEggs;
+      } else {
+        eggBtn.classList.add('hidden');
+      }
+
+      const activePet = PETS_CATALOG.find(p => p.id === gameState.activePet) || PETS_CATALOG[0];
+      document.getElementById('activePetSvg').innerHTML = getPetSvg(activePet.id);
+      document.getElementById('activePetName').textContent = activePet.name;
+    }
+
+    function setFeedbackText(text) {
+      document.getElementById('feedbackBanner').textContent = text;
+      document.getElementById('mobileStatusText').textContent = text;
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('toastMsg');
+      el.textContent = msg;
+      el.style.opacity = '1';
+      el.style.transform = 'translate(-50%, 6px)';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translate(-50%, 0px)';
+      }, 2800);
+    }
+
+    /*************************************************************************
+     * 13. MOTOR DE PARTÍCULAS Y EFECTOS VISUALES EN CANVAS
+     *************************************************************************/
+    const fxCanvas = document.getElementById('fxCanvas');
+    const fxCtx = fxCanvas.getContext('2d');
+    let particles = [];
+    let ambientParticles = [];
+
+    function resizeFxCanvas() {
+      fxCanvas.width = window.innerWidth;
+      fxCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeFxCanvas);
+
+    function spawnConfetti(x, y, count = 35) {
+      const colors = ['#facc15', '#4ade80', '#38bdf8', '#f43f5e', '#a855f7', '#fb923c'];
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 7 + 3;
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 3,
+          size: Math.random() * 8 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          rotation: Math.random() * 360
+        });
+      }
+    }
+
+    function initAmbientWeather() {
+      ambientParticles = [];
+      for (let i = 0; i < 24; i++) {
+        ambientParticles.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: Math.random() * 4 + 2,
+          speedY: Math.random() * 1.2 + 0.4,
+          drift: Math.random() * 1 - 0.5
+        });
+      }
+    }
+
+    function animateFxLoop() {
+      fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+
+      // Partículas ambientales según escenario (Hojas / Chispas / Nieve)
+      if (!arActive) {
+        ambientParticles.forEach(p => {
+          p.y += gameState.currentScene === 'volcano' ? -p.speedY : p.speedY;
+          p.x += p.drift + Math.sin(p.y * 0.02) * 0.4;
+
+          if (p.y > fxCanvas.height + 10) p.y = -10;
+          if (p.y < -10) p.y = fxCanvas.height + 10;
+          if (p.x > fxCanvas.width) p.x = 0;
+          if (p.x < 0) p.x = fxCanvas.width;
+
+          fxCtx.beginPath();
+          if (gameState.currentScene === 'snow') {
+            fxCtx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+            fxCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          } else if (gameState.currentScene === 'volcano') {
+            fxCtx.fillStyle = 'rgba(251, 146, 60, 0.75)';
+            fxCtx.arc(p.x, p.y, p.r * 0.85, 0, Math.PI * 2);
+          } else {
+            fxCtx.fillStyle = 'rgba(187, 247, 208, 0.55)';
+            fxCtx.ellipse(p.x, p.y, p.r * 1.4, p.r * 0.7, p.y * 0.03, 0, Math.PI * 2);
+          }
+          fxCtx.fill();
+        });
+      }
+
+      // Explosiones de estrellas / confeti
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const pt = particles[i];
+        pt.x += pt.vx;
+        pt.y += pt.vy;
+        pt.vy += 0.22; // gravedad
+        pt.alpha -= 0.018;
+
+        if (pt.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        fxCtx.save();
+        fxCtx.globalAlpha = pt.alpha;
+        fxCtx.fillStyle = pt.color;
+        fxCtx.beginPath();
+        fxCtx.arc(pt.x, pt.y, pt.size / 2, 0, Math.PI * 2);
+        fxCtx.fill();
+        fxCtx.restore();
+      }
+
+      requestAnimationFrame(animateFxLoop);
+    }
+
+    /*************************************************************************
+     * 14. INICIALIZACIÓN DE LA APLICACIÓN
+     *************************************************************************/
+    function startGame() {
+      initAudioContext();
+      startBackgroundMusic();
+      document.getElementById('welcomeOverlay').classList.add('hidden');
+      renderDinosaur(false, 'happy');
+      generateMathProblem();
+      speakIntro();
+      setTimeout(() => {
+        checkDailyRewardAuto();
+      }, 3600);
+    }
+
+    window.onload = function () {
+      resizeFxCanvas();
+      initAmbientWeather();
+      renderSceneBackdrop();
+      renderDinosaur(false, 'happy');
+      selectDifficulty(gameState.difficulty);
+      updateHUD();
+      document.getElementById('audioToggleBtn').textContent = gameState.soundEnabled ? '🔊' : '🔇';
+      animateFxLoop();
+    };
+  </script>
+</body>
+</html>
